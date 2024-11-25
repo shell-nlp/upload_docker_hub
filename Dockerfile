@@ -13,4 +13,7 @@ RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
     echo "添加环境变量" && source $HOME/.local/bin/env && \
     echo "安装python3.11" && uv python install 3.11
 
+# 将UV添加到环境变量
+ENV PATH=/root/.local/bin:$PATH
+
 CMD ["/bin/bash"]
