@@ -11,8 +11,8 @@ RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
     echo $SHELL && echo "开始安装 wget" && apt-get update -y && apt install wget -y && \
     echo "开始安装 uv" && wget -qO- https://astral.sh/uv/install.sh | sh && \
     echo "添加环境变量" && source $HOME/.local/bin/env && \
-    echo "安装python3.11" && uv python install 3.11
+    echo "安装python3.10和3.11" && uv python install 3.10.15 3.11.10
 
 # 将UV添加到环境变量
-ENV PATH=/root/.local/bin:/root/.local/share/uv/python/cpython-3.11.10-linux-x86_64-gnu/bin:$PATH
+ENV PATH=/root/.local/bin:/root/.local/share/uv/python/cpython-3.10.15-linux-x86_64-gnu/bin:$PATH
 CMD ["/bin/bash"]
