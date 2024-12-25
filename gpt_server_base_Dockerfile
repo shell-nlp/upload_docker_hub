@@ -1,0 +1,3 @@
+FROM 506610466/gpt_server:base 
+ENV PATH=/gpt_server/.venv/bin:$PATH
+CMD ["/bin/bash"]
