@@ -1,4 +1,4 @@
 FROM 506610466/gpt_server:base_
 ENV PATH=/gpt_server/.venv/bin:$PATH
-RUN apt install -y build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt update -y && apt install -y build-essential && rm -rf /var/lib/apt/lists/*
 CMD ["/bin/bash"]
