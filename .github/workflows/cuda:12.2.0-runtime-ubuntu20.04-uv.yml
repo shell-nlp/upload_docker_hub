@@ -14,7 +14,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      IMAGE_TAG: "cuda:12.2.0-runtime-ubuntu20.04-uv" # 这里用于设置镜像名称
+      IMAGE_TAG: "cuda:12.2.2-runtime-ubuntu20.04-uv" # 这里用于设置镜像名称
 
     steps:
     # 检出代码
