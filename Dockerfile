@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.6.3-runtime-ubuntu20.04
+FROM nvidia/cuda:12.4.1-runtime-ubuntu20.04
 # 设置默认 Shell 为 Bash
 SHELL ["/bin/bash", "-c"]
 
