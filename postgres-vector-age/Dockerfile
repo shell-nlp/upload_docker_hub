@@ -10,6 +10,7 @@ USER root
 #    - build-essential, clang, flex, bison: C 编译工具链
 #    - git: 用于拉取 AGE 源码
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     postgresql-server-dev-16 \
     build-essential libreadline-dev zlib1g-dev flex bison \
     clang \
@@ -26,6 +27,7 @@ RUN make PG_CONFIG=/usr/bin/pg_config install
 
 # 6. (可选) 清理编译依赖，减小镜像体积
 RUN apt-get purge -y --auto-remove \
+    ca-certificates \
     postgresql-server-dev-16 \
     build-essential libreadline-dev zlib1g-dev flex bison \
     clang \
