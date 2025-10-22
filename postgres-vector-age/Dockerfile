@@ -1,4 +1,4 @@
-# 1. 使用一个包含 pgvector 的 PostgreSQL 16 基础镜像
+# 1. 使用一个包含 pgvector 的 PostgreSQL 17 基础镜像
 # 你可以根据需要更改 Postgres 和 pgvector 的版本
 FROM pgvector/pgvector:0.8.1-pg17
 
@@ -6,7 +6,7 @@ FROM pgvector/pgvector:0.8.1-pg17
 USER root
 
 # 3. 安装编译 AGE 所需的依赖
-#    - postgresql-server-dev-16: PG 的开发头文件
+#    - postgresql-server-dev-17: PG 的开发头文件
 #    - build-essential, clang, flex, bison: C 编译工具链
 #    - git: 用于拉取 AGE 源码
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,7 +28,7 @@ RUN make PG_CONFIG=/usr/bin/pg_config install
 # 6. (可选) 清理编译依赖，减小镜像体积
 RUN apt-get purge -y --auto-remove \
     ca-certificates \
-    postgresql-server-dev-16 \
+    postgresql-server-dev-17 \
     build-essential libreadline-dev zlib1g-dev flex bison \
     clang \
     git \
