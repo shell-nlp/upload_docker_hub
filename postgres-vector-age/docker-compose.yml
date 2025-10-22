@@ -1,0 +1,79 @@
+# /my-postgres-project/docker-compose.yml
+
+version: '3.8'
+
+services:
+  postgres-multi-modal:
+    # 1. 构建:
+    #    告诉 Docker Compose 使用当前目录下的 Dockerfile 来构建镜像
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # 2. 镜像名称:
+    #    为构建的镜像命名，方便管理
+    image: postgres-age-vector:latest
+    container_name: postgres_kg_vec_fts
+    restart: always
+
+    # 3. 环境变量:
+    #    设置数据库的超级用户、密码和初始数据库名
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin@2025
+      POSTGRES_DB: multi_modal_db
+      
+      # 4. 关键配置:
+      #    PGOPTIONS 用于传递启动参数。
+      #    Apache AGE *必须* 在 shared_preload_libraries 中加载。
+      #    我们也加入了 vector 以便它能被预加载。
+      PGOPTIONS: "-c shared_preload_libraries=age,vector"
+
+    # 5. 端口映射:
+    #    将主机的 5432 端口映射到容器的 5432 端口
+    ports:
+      - "5432:5432"
+
+    # 6. 卷 (Volumes):
+    volumes:
+      # - pg_data: 挂载一个命名卷，用于持久化存储数据库数据
+      - pg_data:/var/lib/postgresql/data
+      
+    # --- 新增: 健康检查 ---
+    # 这能确保 AGE Viewer 在数据库完全准备好之后再启动
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d multi_modal_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- 服务 2: Apache AGE 可视化工具 ---
+  age-viewer:
+    image: docker.1ms.run/apache/age-viewer:latest
+    container_name: age_viewer_ui
+    restart: always
+    ports:
+      # 将主机的 8080 端口映射到 AGE Viewer 的 Web 界面 (端口 80)
+      - "8080:80"
+    
+    # 环境变量: 配置 AGE Viewer 如何连接到上面的数据库服务
+    environment:
+      # 数据库连接信息 (必须与 postgres-multi-modal 服务中的设置匹配)
+      DATABASE_HOST: postgres-multi-modal  # <-- 关键: 使用服务名作为主机名
+      DATABASE_PORT: 5432
+      DATABASE_USER: admin
+      DATABASE_PASSWORD: admin@2025
+      DATABASE_NAME: multi_modal_db
+      
+      # AGE Viewer 后端配置 (通常不需要修改)
+      AGE_VIEWER_SERVER_URL: http://localhost:8080
+      AGE_VIEWER_BACKEND_HOST: 0.0.0.0
+      AGE_VIEWER_BACKEND_PORT: 8080
+      
+    # 依赖关系: 确保在数据库健康检查通过后才启动此服务
+    depends_on:
+      postgres-multi-modal:
+        condition: service_healthy
+volumes:
+  # 定义命名卷
+  pg_data:
