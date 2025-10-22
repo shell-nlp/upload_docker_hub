@@ -1,6 +1,6 @@
 # 1. 使用一个包含 pgvector 的 PostgreSQL 16 基础镜像
 # 你可以根据需要更改 Postgres 和 pgvector 的版本
-FROM docker.1ms.run/pgvector/pgvector:0.8.1-pg18
+FROM pgvector/pgvector:0.8.1-pg18
 
 # 2. 切换到 root 用户以安装编译依赖
 USER root
