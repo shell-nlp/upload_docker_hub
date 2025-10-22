@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      IMAGE_TAG: "postgres:vector-age" # 这里用于设置镜像名称
+      IMAGE_TAG: "postgres:pg17-vector0.8.1-age1.6.0" # 这里用于设置镜像名称
 
     steps:
     # 检出代码
