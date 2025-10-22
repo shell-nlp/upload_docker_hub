@@ -1,6 +1,6 @@
 # 1. 使用一个包含 pgvector 的 PostgreSQL 16 基础镜像
 # 你可以根据需要更改 Postgres 和 pgvector 的版本
-FROM pgvector/pgvector:0.8.1-pg18
+FROM pgvector/pgvector:0.8.1-pg17
 
 # 2. 切换到 root 用户以安装编译依赖
 USER root
@@ -11,7 +11,7 @@ USER root
 #    - git: 用于拉取 AGE 源码
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    postgresql-server-dev-16 \
+    postgresql-server-dev-17 \
     build-essential libreadline-dev zlib1g-dev flex bison \
     clang \
     git \
