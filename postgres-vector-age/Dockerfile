@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. 克隆 Apache AGE 源码 (使用一个稳定的 release 标签)
-RUN git clone --branch PG17/v1.6.0 https://github.com/apache/age.git /age-src
+RUN git clone --branch release/PG17/1.6.0 https://github.com/apache/age.git /age-src
 
 # 5. 编译和安装 AGE
 WORKDIR /age-src
